@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Rondo Zeiterfassung</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='cropped-Favicon-rondolino-Logo-q-192x192.png')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css')}}">
+    <script type="text/javascript" src="{{url_for('static', filename='pause.js')}}"></script>
+</head>
+<body>
+    <header>
+        <h1 class="text_header" >Rondo Zeiterfassung</h1>
+        <img src="{{url_for('static', filename='download.png')}}" class="image_header">
+    </header>
+   <main>
+    <form method="post" class="searcher">
+        <input class="nameinput" type="search" name="search">
+        <input class="butten" type="submit" value="Search">
+    </form>
+   </main>
+
+</body>
+</html>

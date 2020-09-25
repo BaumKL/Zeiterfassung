@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Rondo Zeiterfassung</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static',filename='cropped-Favicon-rondolino-Logo-q-192x192.png')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css')}}">
+    <script type="text/javascript" src="{{url_for('static', filename='pause.js')}}"></script>
+</head>
+<body>
+    <header>
+        <h1 class="text_header" >Rondo Zeiterfassung</h1>
+        <img src="{{url_for('static', filename='download.png')}}" class="image_header">
+    </header>
+    <main>
+        <form method="post" action="/check">
+                <p> Gib deinen namen ein ! <input class="nameinput" type="text" name="name" required="on" autofocus="on"> </p>
+                <p > Gehen !<input  onclick="eaterde()" type="radio" value="2" name="status" ></p>
+                <p >Kommen !<input  onclick="eater()" type="radio" value="1" name="status" ></p>     
+                <div id="eat"> <p>Mit pause ?<input type="checkbox" value="1" name="eat"> </p></div>
+                <p id = "sub1"><input class="submit" type="submit" value="Done"><p/>
+        </form>
+    </main>
+
+</body>
+</html>

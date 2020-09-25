@@ -1,0 +1,85 @@
+*{
+ font-family:monospace;
+ color:#941b1b;
+}
+body{
+    background-color: #a2a2a2;
+}
+header{
+    border-radius: 80px ;
+    background-size: cover;
+    background-color: #404040;
+    text-align: center;
+    padding: 5px;
+}
+
+main{
+    text-align: center;
+}
+
+.nameinput{
+    background-color:gainsboro;
+    border-radius: 10px;
+    border: 0px;
+}
+
+.passwortinput{
+    background-color:gainsboro;
+    border-radius: 10px;
+    border: 0px;
+}
+.submit{
+    background-color:gainsboro;
+    border-radius: 10px;
+    border: 0px;
+
+}
+
+
+#eat{
+    display:none;
+}
+.donetext{
+    font-size: 30px;
+}
+
+.returntext{
+    font-size: 30px;
+}
+.butten{
+    margin: 10px;
+    background-color:gainsboro;
+    border-radius: 10px;
+    border: 30px;
+}
+.butten_a{
+  text-decoration: none;
+}
+
+
+.converter_text {
+    text-decoration: none;
+}
+
+.converter_text:hover  {
+    text-decoration: underline;
+}
+
+.search{
+    margin: 30px;
+}
+.tabel{
+    border-style: outset;
+    border-color: #ffffff8c;
+}
+.searcher{
+  margin: 30px;
+}
+.image_header{
+  margin: 10px;
+}
+.text_header{
+  font-size: 40px;
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
