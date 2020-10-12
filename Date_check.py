@@ -7,7 +7,7 @@ while 0 == end:
     date = (datetime.datetime.now ( ).strftime ( "%A  %d.%m.%Y" ))
     time = (datetime.datetime.now ( ).strftime ( "%H:%M" ))
     for z in range(len(name)):
-        if time == "20:19":
+        if time == "23:59":
             conn = sqlite3.connect ( 'datenbank.db' )
             cursor = conn.cursor ( )
             cursor.execute ( "SELECT count(*) FROM zeiterfassung WHERE name == ? " ,(name[z],))
