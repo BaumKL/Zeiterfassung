@@ -46,14 +46,14 @@ def check ():
                         global statuscheck
                         statuscheck = 1
                         if eat == '1':
-                            global eater
-                            global eatid
-                            eater = 'Mit Mitagspause!'
-                            eatid = 1
+                            global eat_print
+                            global eat_status
+                            eat_print = 'Mit Mitagspause!'
+                            eat_status = 1
                             return redirect ( '/done' )
                         else:
-                            eater = 'Ohne Mitagspause'
-                            eatid = 0
+                            eat_print = 'Ohne Mitagspause'
+                            eat_status = 0
                             return redirect ( '/done' )
                 else:
                     conn = sqlite3.connect ( 'datenbank.db' )
@@ -97,19 +97,19 @@ def done():
         cursor.execute ( "UPDATE zeiterfassung SET zeit2 == ? WHERE datum == ? AND name ==? AND zeit2 IS NULL " , (time ,date,usernamen) )
         conn.commit ( )
         conn.close ( )
-        global eater
-        eater = " "
-        return render_template ( 'done.html' , eater=eater , name=name[z] , status=statuscheck )
+        global eat_print
+        eat_print = " "
+        return render_template ( 'done.html' , eater=eat_print , name=name[z] , status=statuscheck )
 
     if statuscheck == 1:
-        if eatid == 0 :
-            pause = '00:00'
+        if eat_status == 0 :
+            brake_print = '00:00'
         else:
-            pause = '00:15:00'
-        cursor.execute ( "INSERT INTO zeiterfassung (id,name, datum,zeit1,essen) VALUES (?,?,?,?,?)" , (idselect3 ,usernamen , date , time,pause) )
+            brakes_print = '00:15:00'
+        cursor.execute ( "INSERT INTO zeiterfassung (id,name, datum,zeit1,essen) VALUES (?,?,?,?,?)" , (idselect3 ,usernamen , date , time,brakes_print) )
         conn.commit ( )
         conn.close ( )
-        return  render_template('done.html',eater = eater , name = usernamen,status = statuscheck  )
+        return  render_template('done.html' , eater = eat_print , name = usernamen , status = statuscheck )
 @app.route('/convert' , methods = ['POST','GET'])
 def convert():
     date = (datetime.datetime.now ( ).strftime ( "%A  %d.%m.%Y" ))
@@ -165,13 +165,13 @@ def convert():
             conn = sqlite3.connect ( 'datenbank.db' )
             cursor = conn.cursor ( )
             cursor.execute ( "SELECT COUNT(*) FROM zeiterfassungbackup" )
-            idselect1 = cursor.fetchall ( )
-            idselect1 = int ( idselect1[0][0] )
-            idselect1 = idselect1 + 1
+            counter_sel = cursor.fetchall ( )
+            counter_sel = int ( counter_sel[0][0] )
+            counter_sel = counter_sel + 1
             conn.commit ( )
 
 
-            cursor.execute ( "INSERT INTO zeiterfassungbackup  VALUES (?,?,?,?,?,?)" , (idselect1 , searchquery1[y][1] , searchquery1[y][2] , searchquery1[y][3] , searchquery1[y][4] , searchquery1[y][5]) )
+            cursor.execute ( "INSERT INTO zeiterfassungbackup  VALUES (?,?,?,?,?,?)" , (counter_sel , searchquery1[y][1] , searchquery1[y][2] , searchquery1[y][3] , searchquery1[y][4] , searchquery1[y][5]) )
             conn.commit ( )
             conn.close ( )
             y = y + 1
@@ -194,22 +194,22 @@ def search ():
         cursor = conn.cursor ( )
 
         cursor.execute ( "SELECT * FROM zeiterfassung WHERE name == ? " ,(search,) )
-        result1 = cursor.fetchall ( )
+        result_search_1 = cursor.fetchall ( )
         conn.commit ( )
 
         cursor.execute ( "SELECT * FROM zeiterfassungbackup WHERE name == ? " , (search ,) )
-        result2 = cursor.fetchall ( )
+        result_search_2 = cursor.fetchall ( )
         conn.commit ( )
 
         cursor.execute ( "SELECT count(*) FROM zeiterfassungbackup WHERE name == ? " , (search ,) )
-        count2 = cursor.fetchall ( )
+        counter_sel_zeiterfassungbackup= cursor.fetchall ( )
         conn.commit ( )
 
         cursor.execute ( "SELECT count(*) FROM zeiterfassung WHERE name == ? " , (search ,) )
-        count1 = cursor.fetchall ( )
+        counter_sel_zeiterfassung = cursor.fetchall ( )
         conn.commit ( )
 
-        return render_template('tabel.html',result1= result1 , result2 = result2, count11 = count1[0][0] , count22 = count2[0][0],search=search,)
+        return render_template('tabel.html',result1= result_search_1 , result2 = result_search_2, count11 = counter_sel_zeiterfassung[0][0] , count22 = counter_sel_zeiterfassungbackup[0][0],search=search,)
     return render_template('search.html')
 
 if __name__ == '__main__':
