@@ -17,13 +17,21 @@ main{
     text-align: center;
 }
 
-.nameinput{
+/*---------------------------------------------------------------------*/
+
+#eat{
+    display:none;
+}
+
+/*---------------------------------------------------------------------*/
+
+.name_input{
     background-color:gainsboro;
     border-radius: 10px;
     border: 0px;
 }
 
-.passwortinput{
+.passwort_input{
     background-color:gainsboro;
     border-radius: 10px;
     border: 0px;
@@ -34,16 +42,11 @@ main{
     border: 0px;
 
 }
-
-
-#eat{
-    display:none;
-}
-.donetext{
+.done_text{
     font-size: 30px;
 }
 
-.returntext{
+.return_text{
     font-size: 30px;
 }
 .butten{
@@ -71,9 +74,6 @@ main{
 .tabel{
     border-style: outset;
     border-color: #ffffff8c;
-}
-.searcher{
-  margin: 30px;
 }
 .image_header{
   margin: 10px;
