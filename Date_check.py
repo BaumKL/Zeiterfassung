@@ -1,32 +1,33 @@
 import datetime
 import sqlite3
-
-name = ['Uschi', 'Helga', 'Mete', 'Andreas', 'Maria', 'Thomas', 'Konrad', 'Amed', 'Zusatz1', 'Zusatz2', 'Zusatz3',]
-end = 0
-while 0 == end:
-    date = (datetime.datetime.now ( ).strftime ( "%A  %d.%m.%Y" ))
-    time = (datetime.datetime.now ( ).strftime ( "%H:%M" ))
-    for z in range(len(name)):
-        if time == "23:59":
-            conn = sqlite3.connect ( 'datenbank.db' )
-            cursor = conn.cursor ( )
-            cursor.execute ( "SELECT count(*) FROM zeiterfassung WHERE name == ? " ,(name[z],))
-            selectentry = cursor.fetchall ( )
-            selectentry = selectentry[0][0]
-            conn.commit ( )
-
-            if selectentry == 0 :
+import main
 
 
-                cursor.execute ( "SELECT COUNT(*) FROM zeiterfassung" )
-                idselect = cursor.fetchall ( )
-                idselect2 = int ( idselect[0][0] )
-                idselect3 = idselect2 + 1
+if __name__ == '__main__':
+    while 0 == 1:
+        date = (datetime.datetime.now ( ).strftime ( "%A  %d.%m.%Y" ))
+        time = (datetime.datetime.now ( ).strftime ( "%H:%M" ))
+        for z in range( len( main.name ) ):
+            if time == "23:59":
+                conn = sqlite3.connect ( 'datenbank.db' )
+                cursor = conn.cursor ( )
+                cursor.execute ( "SELECT count(*) FROM zeiterfassung WHERE name == ? " , (main.name[z],) )
+                counter_sel_zeiterfassung_name_bedinung = cursor.fetchall ( )
+                counter_sel_zeiterfassung_name_bedinung = counter_sel_zeiterfassung_name_bedinung[0][0]
                 conn.commit ( )
 
-                cursor.execute ( "INSERT INTO zeiterfassung (id,name, datum) VALUES (?,?,?)" , (idselect3 , name[z] ,date, ) )
-                conn.commit ( )
-                conn.close ( )
+                if counter_sel_zeiterfassung_name_bedinung == 0 :
+
+
+                    cursor.execute ( "SELECT COUNT(*) FROM zeiterfassung" )
+                    counter_sel_zeiterfassung = cursor.fetchall ( )
+                    counter_sel_zeiterfassung = int ( counter_sel_zeiterfassung[0][0] )
+                    counter_sel_zeiterfassung = counter_sel_zeiterfassung + 1
+                    conn.commit ( )
+
+                    cursor.execute ( "INSERT INTO zeiterfassung (id,name, datum) VALUES (?,?,?)" , (counter_sel_zeiterfassung , main.name[z] , date,) )
+                    conn.commit ( )
+                    conn.close ( )
 
 
 
