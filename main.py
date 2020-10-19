@@ -1,7 +1,8 @@
-from flask import Flask,render_template,request,redirect,send_file
+from flask import Flask,render_template,request,redirect,url_for,session
 import sqlite3
 import datetime
 import time
+import os
 
 
 
@@ -15,15 +16,28 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('auto_login')
+    return redirect(url_for('Zeiterfassung'))
+
 @app.route('/Zeiterfassung',methods = ['POST','GET'])
 def Zeiterfassung ():
     if request.method == 'POST':
         passwort = request.form.get ( 'passwd' )
         if passwort == "Zeiterfassung2020":
+            session['auto_login'] = passwort
             return render_template ( 'zeiterfassung.html' )
         else:
             return render_template ( 'loginfail.html' )
-    return render_template ( 'login.html' )
+    elif 'auto_login' in session:
+        if session['auto_login'] == 'Zeiterfassung2020':
+            return render_template ( 'zeiterfassung.html' )
+    else:
+        return render_template ( 'login.html' )
+
+app.secret_key = "Io H & ( fi & u? +? MZ % ??? t , 4q? U? V_F ? R. G zL ? 3F6? ܺ y Y * aO $ 5? 4 m 9PY M? Kd x ~ 4 # P ? 4 wfR + 4 <Ӕ * ? $ "
 @app.route('/check',methods = ['POST','GET'])
 def check ():
     date = (datetime.datetime.now ( ).strftime ( "%A  %d.%m.%Y" ))
