@@ -11,7 +11,8 @@ ID = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '010' ]
 name = ['Uschi', 'Helga', 'Mete', 'Andreas', 'Maria', 'Thomas', 'Konrad', 'Amed', 'Zusatz1', 'Zusatz2', 'Zusatz3',]
 
 app = Flask(__name__)
-
+path_db = 'datenbank.db'
+path_dataoutput = 'dataoutput/'
 
 @app.route('/')
 def index():
@@ -49,12 +50,12 @@ def check ():
         for z in range(len(ID)):
             if ID[z] == userid or name[z] == userid     :
                 if status == '1':
-                    conn = sqlite3.connect ( 'datenbank.db' )
+                    conn = sqlite3.connect (path_db)
                     cursor = conn.cursor ( )
                     cursor.execute ( "SELECT count(*) from zeiterfassung WHERE name == ? and datum == ?" , (name[z],date,) )
-                    counter = cursor.fetchall ( )
+                    countecounter_sel_zeiterfassung_bediung = cursor.fetchall ( )
                     conn.commit ()
-                    if counter[0][0] >= 1 :
+                    if countecounter_sel_zeiterfassung_bediung[0][0] >= 1 :
                         return render_template("fail.html", status= 1)
                     else:
                         global statuscheck
@@ -70,22 +71,22 @@ def check ():
                             eat_status = 0
                             return redirect ( '/done' )
                 else:
-                    conn = sqlite3.connect ( 'datenbank.db' )
+                    conn = sqlite3.connect (path_db)
                     cursor = conn.cursor ( )
                     cursor.execute ( "SELECT count(*) from zeiterfassung WHERE name == ? and datum == ?" , (name[z] , date ,) )
-                    counter = cursor.fetchall ( )
+                    countecounter_sel_zeiterfassung_bediung = cursor.fetchall ( )
                     conn.commit ( )
 
                     cursor.execute (" SELECT count(*) FROM zeiterfassung WHERE name == ? and zeit2 is not NULL",(name[z],))
-                    counterout = cursor.fetchall ( )
+                    counter_sel_zeiterfassung_bediung_null = cursor.fetchall ( )
                     conn.commit ( )
 
 
-                    if counter[0][0] <= 0:
+                    if countecounter_sel_zeiterfassung_bediung[0][0] <= 0:
                         return render_template("fail.html", status = 2 )
 
                     else:
-                        if counterout[0][0] <= 0:
+                        if counter_sel_zeiterfassung_bediung_null[0][0] <= 0:
                             statuscheck = 2
                             return redirect ( '/done' )
                         else :
@@ -98,12 +99,12 @@ def done():
     time = (datetime.datetime.now ( ).strftime ( "%H:%M" ))
 
 
-    conn = sqlite3.connect ( 'datenbank.db' )
+    conn = sqlite3.connect (path_db)
     cursor = conn.cursor ( )
     cursor.execute ( "SELECT COUNT(*) FROM zeiterfassung" )
-    idselect = cursor.fetchall ( )
-    idselect2 = int ( idselect[0][0] )
-    idselect3 = idselect2 + 1
+    counter_sel_zeiterfassung = cursor.fetchall ( )
+    counter_sel_zeiterfassung = int ( counter_sel_zeiterfassung[0][0] )
+    counter_sel_zeiterfassung = counter_sel_zeiterfassung + 1
     conn.commit ( )
 
 
@@ -120,7 +121,7 @@ def done():
             brake_print = '00:00'
         else:
             brakes_print = '00:15:00'
-        cursor.execute ( "INSERT INTO zeiterfassung (id,name, datum,zeit1,essen) VALUES (?,?,?,?,?)" , (idselect3 ,usernamen , date , time,brakes_print) )
+        cursor.execute ( "INSERT INTO zeiterfassung (id,name, datum,zeit1,essen) VALUES (?,?,?,?,?)" , (counter_sel_zeiterfassung ,usernamen , date , time,brakes_print) )
         conn.commit ( )
         conn.close ( )
         return  render_template('done.html' , eater = eat_print , name = usernamen , status = statuscheck )
@@ -129,28 +130,28 @@ def convert():
     date = (datetime.datetime.now ( ).strftime ( "%A  %d.%m.%Y" ))
 
     for i in range ( len ( name ) ):
-        conn = sqlite3.connect ( 'datenbank.db' )
+        conn = sqlite3.connect (path_db)
         cursor = conn.cursor ( )
         cursor.execute ( "SELECT COUNT(*) FROM zeiterfassung WHERE name = ? " , (name[i] ,) )
-        select = cursor.fetchall ( )
+        counter_sel_zeiterfassung = cursor.fetchall ( )
         conn.commit ( )
-        select = select[0][0] - 1
+        counter_sel_zeiterfassung = counter_sel_zeiterfassung[0][0] - 1
         z = 0
 
 
-        while z <= select:
-            conn = sqlite3.connect ( 'datenbank.db' )
+        while z <= counter_sel_zeiterfassung:
+            conn = sqlite3.connect (path_db)
             cursor = conn.cursor ( )
             cursor.execute ( "SELECT * FROM zeiterfassung WHERE name = ? " , (name[i] ,) )
             conn.commit ( )
-            searchquery = cursor.fetchall ( )
+            search_zeiterfassung_bediung_name = cursor.fetchall ( )
             conn.close ( )
 
-            file = open ( "dataoutput/" +name[i]+ ".csv" ,"a" )
-            file.write ( str ( searchquery[z][2] ) + "," )
-            file.write ( str ( searchquery[z][3] ) + "," )
-            file.write ( str ( searchquery[z][4] ) + "," )
-            file.write ( str ( searchquery[z][5] ) + "\n" )
+            file = open (path_dataoutput+name[i]+ ".csv" ,"a" )
+            file.write ( str ( search_zeiterfassung_bediung_name[z][2] ) + "," )
+            file.write ( str ( search_zeiterfassung_bediung_name[z][3] ) + "," )
+            file.write ( str ( search_zeiterfassung_bediung_name[z][4] ) + "," )
+            file.write ( str ( search_zeiterfassung_bediung_name[z][5] ) + "\n" )
             file.close ( )
             z = z + 1
 
@@ -158,39 +159,39 @@ def convert():
     for j in range ( len ( name ) ):
 
 
-        conn = sqlite3.connect ( 'datenbank.db' )
+        conn = sqlite3.connect (path_db)
         cursor = conn.cursor ( )
         cursor.execute ( "SELECT COUNT(*) FROM zeiterfassung WHERE name = ? " , (name[j] ,) )
-        select = cursor.fetchall ( )
+        counter_sel_zeiterfassung = cursor.fetchall ( )
         conn.commit ( )
-        select = select[0][0]-1
+        counter_sel_zeiterfassung = counter_sel_zeiterfassung[0][0]-1
         y = 0
 
 
-        while y <= select:
-            conn = sqlite3.connect ( 'datenbank.db' )
+        while y <= counter_sel_zeiterfassung:
+            conn = sqlite3.connect (path_db)
             cursor = conn.cursor ( )
             cursor.execute ( "SELECT * FROM zeiterfassung WHERE name = ? " , (name[j] ,) )
             conn.commit ( )
-            searchquery1 = cursor.fetchall ( )
+            search_zeiterfassung_bediung_name = cursor.fetchall ( )
             conn.close ( )
 
 
-            conn = sqlite3.connect ( 'datenbank.db' )
+            conn = sqlite3.connect (path_db)
             cursor = conn.cursor ( )
             cursor.execute ( "SELECT COUNT(*) FROM zeiterfassungbackup" )
-            counter_sel = cursor.fetchall ( )
-            counter_sel = int ( counter_sel[0][0] )
-            counter_sel = counter_sel + 1
+            counter_sel_zeiterfassungbackup = cursor.fetchall ( )
+            counter_sel_zeiterfassungbackup = int ( counter_sel_zeiterfassungbackup[0][0] )
+            counter_sel_zeiterfassungbackup = counter_sel_zeiterfassungbackup + 1
             conn.commit ( )
 
 
-            cursor.execute ( "INSERT INTO zeiterfassungbackup  VALUES (?,?,?,?,?,?)" , (counter_sel , searchquery1[y][1] , searchquery1[y][2] , searchquery1[y][3] , searchquery1[y][4] , searchquery1[y][5]) )
+            cursor.execute ( "INSERT INTO zeiterfassungbackup  VALUES (?,?,?,?,?,?)" , (counter_sel_zeiterfassungbackup , search_zeiterfassung_bediung_name[y][1] , search_zeiterfassung_bediung_name[y][2] , search_zeiterfassung_bediung_name[y][3] , search_zeiterfassung_bediung_name[y][4] , search_zeiterfassung_bediung_name[y][5]) )
             conn.commit ( )
             conn.close ( )
             y = y + 1
 
-    conn = sqlite3.connect ( 'datenbank.db' )
+    conn = sqlite3.connect (  path_db )
     cursor = conn.cursor ( )
     cursor.execute ( "DELETE  FROM zeiterfassung" )
     conn.commit ( )
@@ -204,7 +205,7 @@ def search ():
 
         search = request.form.get ( 'search' )
 
-        conn = sqlite3.connect ( 'datenbank.db' )
+        conn = sqlite3.connect (path_db)
         cursor = conn.cursor ( )
 
         cursor.execute ( "SELECT * FROM zeiterfassung WHERE name == ? " ,(search,) )
