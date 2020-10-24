@@ -11,10 +11,9 @@
         <h1 class="text_header" >Rondo Zeiterfassung</h1>
         <img src="{{url_for('static', filename='download.png')}}" class="image_header">
     </header>
-    <main>
-        <h1 class="return_text" >Die Dateine wurden Erfolgreich konvertiert !!!! </h1>
-        <p><a href="/send_mail">Klicke auf diesen Text um dir den Link zur Cloud per E-mail zu schicken</a></p>
-    </main>
-    <meta http-equiv="refresh" content="10; URL=/">
+   <main>
+       <h1 class="return_text" >Der Link wurde erfolkreich an {{RCPT_TO}} gesendet !!!</h1>
+       <meta http-equiv="refresh" content="5; URL=/">
+   </main>
 </body>
 </html>

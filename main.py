@@ -1,8 +1,8 @@
 from flask import Flask,render_template,request,redirect,url_for,session
 import sqlite3
 import datetime
-import time
-import os
+from smtplib import SMTP
+
 
 
 
@@ -11,8 +11,8 @@ ID = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '010' ]
 name = ['Uschi', 'Helga', 'Mete', 'Andreas', 'Maria', 'Thomas', 'Konrad', 'Amed', 'Zusatz1', 'Zusatz2', 'Zusatz3',]
 
 app = Flask(__name__)
-path_db = 'datenbank.db'
-path_dataoutput = 'dataoutput/'
+path_db = 'datenbank.db'#'/home/pi/Documents/rpiWebServer/datenbank.db'
+path_dataoutput = 'dataoutput/'#'/home/pi/Documents/rpiWebServer/datenbank.db'
 
 @app.route('/')
 def index():
@@ -120,10 +120,10 @@ def done():
         if eat_status == 0 :
             brake_print = '00:00'
         else:
-            brakes_print = '00:15:00'
-        cursor.execute ( "INSERT INTO zeiterfassung (id,name, datum,zeit1,essen) VALUES (?,?,?,?,?)" , (counter_sel_zeiterfassung ,usernamen , date , time,brakes_print) )
-        conn.commit ( )
-        conn.close ( )
+            brake_print = '00:15:00'
+            cursor.execute ( "INSERT INTO zeiterfassung (id,name, datum,zeit1,essen) VALUES (?,?,?,?,?)" , (counter_sel_zeiterfassung ,usernamen , date , time,brake_print) )
+            conn.commit ( )
+            conn.close ( )
         return  render_template('done.html' , eater = eat_print , name = usernamen , status = statuscheck )
 @app.route('/convert' , methods = ['POST','GET'])
 def convert():
@@ -226,6 +226,26 @@ def search ():
 
         return render_template('tabel.html',result1= result_search_1 , result2 = result_search_2, count11 = counter_sel_zeiterfassung[0][0] , count22 = counter_sel_zeiterfassungbackup[0][0],search=search,)
     return render_template('search.html')
+@app.route('/send_mail',methods = ['POST','GET'])
+def send_mail () :
+    if request.method == 'POST':
+        RCPT_TO = request.form.get ( 'RCPT_TO' )
+        mail_text = 'Hier ist der Google Drive Link zum Datenoutput der Zeiterfassung: \n https://drive.google.com/drive/folders/1rQHZnT_oXpLUULuHgnQPs0r78LYHORl8?usp=sharing '
+        user = 'Zeitmessungssystem@gmail.com'
+        pwd = 'skit7BIRD!smee3chem'
+        subject = 'Link zum Datenoutput der Zeiterfassung :)'
+
+        MAIL_FROM = 'Zeitmessungssystem@gmail.com'
+        DATA = 'From:%s\nTo:%s\nSubject:%s\n\n%s' % (MAIL_FROM , RCPT_TO , subject , mail_text)
+
+        server = SMTP ( 'smtp.gmail.com:587' )
+        server.starttls ( )
+        server.login ( user , pwd )
+        server.sendmail ( MAIL_FROM , RCPT_TO , DATA )
+        server.quit ( )
+        return render_template('mail_sent.html',RCPT_TO=RCPT_TO)
+    else:
+        return render_template('mail_input.html')
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5001, debug=True)

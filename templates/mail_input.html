@@ -11,10 +11,14 @@
         <h1 class="text_header" >Rondo Zeiterfassung</h1>
         <img src="{{url_for('static', filename='download.png')}}" class="image_header">
     </header>
-    <main>
-        <h1 class="return_text" >Die Dateine wurden Erfolgreich konvertiert !!!! </h1>
-        <p><a href="/send_mail">Klicke auf diesen Text um dir den Link zur Cloud per E-mail zu schicken</a></p>
-    </main>
-    <meta http-equiv="refresh" content="10; URL=/">
+   <main>
+       <form method="post">
+           <p>Bitte Emailadresse eingeben !</p>
+           <p> <input type="email" name="RCPT_TO" class="mail_input"></p>
+           <p><input type="submit" class="butten" ></p>
+        </form>
+   </main>
+
+
 </body>
 </html>

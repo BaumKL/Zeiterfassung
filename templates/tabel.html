@@ -16,15 +16,21 @@
             <p>Suchergebnise zu {{search}} </p>
            {%if count11 <= 0 %}
            <h2>Kein Ergebnis Gefunden</h2>
-           {%elif count11 >= 1 %}
+           {%endif%}
+           {%if count11 >= 1 %}
+           <tr> <td class="tabel">Name</td> <td class="tabel">Datum</td>  <td class="tabel">Zeit1</td> <td class="tabel">Zeit2</td> <td class="tabel">Pausenlänge</td></tr>
            <tr> <td class="tabel">{{result1[-1][1]}}</td> <td class="tabel">{{result1[-1][2]}}</td>  <td class="tabel">{{result1[-1][3]}}</td> <td class="tabel">{{result1[-1][4]}}</td> <td class="tabel">{{result1[-1][5]}}</td></tr>
-           {%elif count11 >= 2 %}
+           {%endif%}
+           {%if count11 >= 2 %}
            <tr> <td class="tabel">{{result1[-2][1]}}</td> <td class="tabel">{{result1[-2][2]}}</td>  <td class="tabel">{{result1[-2][3]}}</td> <td class="tabel">{{result1[-2][4]}}</td> <td class="tabel">{{result1[-2][5]}}</td></tr>
-           {%elif count11 >= 3 %}
+           {%endif%}
+           {%if count11 >= 3 %}
            <tr> <td class="tabel">{{result1[-3][1]}}</td> <td class="tabel">{{result1[-3][2]}}</td>  <td class="tabel">{{result1[-3][3]}}</td> <td class="tabel">{{result1[-3][4]}}</td> <td class="tabel">{{result1[-3][5]}}</td></tr>
-           {%elif count11 >= 4 %}
+           {%endif%}
+           {%if count11 >= 4 %}
            <tr> <td class="tabel">{{result1[-4][1]}}</td> <td class="tabel">{{result1[-4][2]}}</td>  <td class="tabel">{{result1[-4][3]}}</td> <td class="tabel">{{result1[-4][4]}}</td> <td class="tabel">{{result1[-4][5]}}</td></tr>
-           {%elif count11 >= 5 %}
+           {%endif%}
+           {%if count11 >= 5 %}
            <tr> <td class="tabel">{{result1[-5][1]}}</td> <td class="tabel">{{result1[-5][2]}}</td>  <td class="tabel">{{result1[-5][3]}}</td> <td class="tabel">{{result1[-5][4]}}</td> <td class="tabel">{{result1[-5][5]}}</td></tr>
            {%endif%}
        </table>
@@ -32,15 +38,21 @@
        <table align="center">
            {%if count22 <= 0 %}
            <h2>Kein Ergebnis Gefunden</h2>
-           {%elif count22 >= 1 %}
+           {%endif%}
+           {%if count22 >= 1 %}
+           <tr> <td class="tabel">Name</td> <td class="tabel">Datum</td>  <td class="tabel">Zeit1</td> <td class="tabel">Zeit2</td> <td class="tabel">Pausenlänge</td></tr>
            <tr> <td class="tabel">{{result2[-1][1]}}</td> <td class="tabel">{{result2[-1][2]}}</td>  <td class="tabel">{{result2[-1][3]}}</td> <td class="tabel">{{result2[-1][4]}}</td> <td class="tabel">{{result2[-1][5]}}</td></tr>
-           {%elif count22 >= 2 %}
+           {%endif%}
+           {%if count22 >= 2 %}
            <tr> <td class="tabel">{{result2[-2][1]}}</td> <td class="tabel">{{result2[-2][2]}}</td>  <td class="tabel">{{result2[-2][3]}}</td> <td class="tabel">{{result2[-2][4]}}</td> <td class="tabel">{{result2[-2][5]}}</td></tr>
-           {%elif count22 >= 3 %}
+           {%endif%}
+           {%if count22 >= 3 %}
            <tr> <td class="tabel">{{result2[-3][1]}}</td> <td class="tabel">{{result2[-3][2]}}</td>  <td class="tabel">{{result2[-3][3]}}</td> <td class="tabel">{{result2[-3][4]}}</td> <td class="tabel">{{result2[-3][5]}}</td></tr>
-           {%elif count22 >= 4 %}
+           {%endif%}
+           {%if count22 >= 4 %}
            <tr> <td class="tabel">{{result2[-4][1]}}</td> <td class="tabel">{{result2[-4][2]}}</td>  <td class="tabel">{{result2[-4][3]}}</td> <td class="tabel">{{result2[-4][4]}}</td> <td class="tabel">{{result2[-4][5]}}</td></tr>
-           {%elif count22 >= 5 %}
+           {%endif%}
+           {%if count22 >= 5 %}
            <tr> <td class="tabel">{{result2[-5][1]}}</td> <td class="tabel">{{result2[-5][2]}}</td>  <td class="tabel">{{result2[-5][3]}}</td> <td class="tabel">{{result2[-5][4]}}</td> <td class="tabel">{{result2[-5][5]}}</td></tr>
            {%endif%}
        </table>

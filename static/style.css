@@ -86,3 +86,8 @@ main{
   margin-bottom: 0px;
   margin-top: 10px;
 }
+.mail_input{
+    background-color:gainsboro;
+    border-radius: 10px;
+    border: 0px;
+}
