@@ -127,7 +127,7 @@ def done():
         return  render_template('done.html' , eater = eat_print , name = usernamen , status = statuscheck )
 @app.route('/convert' , methods = ['POST','GET'])
 def convert():
-    date = (datetime.datetime.now ( ).strftime ( "%A  %d.%m.%Y" ))
+    year = (datetime.datetime.now ( ).strftime ( "%Y" ))
 
     for i in range ( len ( name ) ):
         conn = sqlite3.connect (path_db)
@@ -147,7 +147,7 @@ def convert():
             search_zeiterfassung_bediung_name = cursor.fetchall ( )
             conn.close ( )
 
-            file = open (path_dataoutput+name[i]+ ".csv" ,"a" )
+            file = open (path_dataoutput+name[i]+" "+year+".csv" ,"a" )
             file.write ( str ( search_zeiterfassung_bediung_name[z][2] ) + "," )
             file.write ( str ( search_zeiterfassung_bediung_name[z][3] ) + "," )
             file.write ( str ( search_zeiterfassung_bediung_name[z][4] ) + "," )
