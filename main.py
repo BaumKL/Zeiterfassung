@@ -12,7 +12,7 @@ name = ['Uschi', 'Helga', 'Mete', 'Andreas', 'Maria', 'Thomas', 'Konrad', 'Amed'
 
 app = Flask(__name__)
 path_db = 'datenbank.db'#'/home/pi/Documents/rpiWebServer/datenbank.db'
-path_dataoutput = 'dataoutput/'#'/home/pi/Documents/rpiWebServer/datenbank.db'
+path_dataoutput = 'dataoutput/'#'/home/pi/Documents/rpiWebServer/dataoutput/'
 
 @app.route('/')
 def index():
