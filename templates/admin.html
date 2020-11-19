@@ -12,22 +12,9 @@
         <img src="{{url_for('static', filename='download.png')}}" class="image_header">
     </header>
     <main>
-        <meta http-equiv="refresh" content="5; URL={{URL}}">
-        {%if status == 1%}
-        <p class="done_text">Sie haben sich heute bereits eingelockt !</p>
-        {%elif status == 2%}
-        <p class="done_text">Sie haben sich heute noch nicht eingelockt !</p>
-        {%elif status == 3%}
-            <p class="done_text">Sie haben sich  heute schon ausgelockt !<p/>
-        {%elif status == 4%}
-            <p class="done_text">Dieser name Exestiert nicht auf ihrer Mitarbeiterliste !<p/>
-        {%else%}
-            <p>Fehler</p>
-
-        {%endif%}
-
+        <iframe class="iframe" src="{{url_for('static', filename='log.txt')}}"></iframe>
+        <div><button class="butten" id="log_out" ><a href="/logout_admin" class="butten_a">log out</a></button></div>
     </main>
-
 
 </body>
 </html>

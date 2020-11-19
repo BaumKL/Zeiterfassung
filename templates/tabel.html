@@ -12,49 +12,34 @@
         <img src="{{url_for('static', filename='download.png')}}" class="image_header">
     </header>
    <main>
+       <p>Suchergebnise zu {{search}} </p>
+       {%if counter_sel_zeiterfassung <= 0 and counter_sel_zeiterfassungbackup <= 0%}
+       <h2>Kein Ergebnis Gefunden</h2>
+       {%endif%}
        <table align="center">
-            <p>Suchergebnise zu {{search}} </p>
-           {%if count11 <= 0 %}
-           <h2>Kein Ergebnis Gefunden</h2>
-           {%endif%}
-           {%if count11 >= 1 %}
-           <tr> <td class="tabel">Name</td> <td class="tabel">Datum</td>  <td class="tabel">Zeit1</td> <td class="tabel">Zeit2</td> <td class="tabel">Pausenlänge</td></tr>
-           <tr> <td class="tabel">{{result1[-1][1]}}</td> <td class="tabel">{{result1[-1][2]}}</td>  <td class="tabel">{{result1[-1][3]}}</td> <td class="tabel">{{result1[-1][4]}}</td> <td class="tabel">{{result1[-1][5]}}</td></tr>
-           {%endif%}
-           {%if count11 >= 2 %}
-           <tr> <td class="tabel">{{result1[-2][1]}}</td> <td class="tabel">{{result1[-2][2]}}</td>  <td class="tabel">{{result1[-2][3]}}</td> <td class="tabel">{{result1[-2][4]}}</td> <td class="tabel">{{result1[-2][5]}}</td></tr>
-           {%endif%}
-           {%if count11 >= 3 %}
-           <tr> <td class="tabel">{{result1[-3][1]}}</td> <td class="tabel">{{result1[-3][2]}}</td>  <td class="tabel">{{result1[-3][3]}}</td> <td class="tabel">{{result1[-3][4]}}</td> <td class="tabel">{{result1[-3][5]}}</td></tr>
-           {%endif%}
-           {%if count11 >= 4 %}
-           <tr> <td class="tabel">{{result1[-4][1]}}</td> <td class="tabel">{{result1[-4][2]}}</td>  <td class="tabel">{{result1[-4][3]}}</td> <td class="tabel">{{result1[-4][4]}}</td> <td class="tabel">{{result1[-4][5]}}</td></tr>
-           {%endif%}
-           {%if count11 >= 5 %}
-           <tr> <td class="tabel">{{result1[-5][1]}}</td> <td class="tabel">{{result1[-5][2]}}</td>  <td class="tabel">{{result1[-5][3]}}</td> <td class="tabel">{{result1[-5][4]}}</td> <td class="tabel">{{result1[-5][5]}}</td></tr>
-           {%endif%}
-       </table>
-       <hr>
-       <table align="center">
-           {%if count22 <= 0 %}
-           <h2>Kein Ergebnis Gefunden</h2>
-           {%endif%}
-           {%if count22 >= 1 %}
-           <tr> <td class="tabel">Name</td> <td class="tabel">Datum</td>  <td class="tabel">Zeit1</td> <td class="tabel">Zeit2</td> <td class="tabel">Pausenlänge</td></tr>
-           <tr> <td class="tabel">{{result2[-1][1]}}</td> <td class="tabel">{{result2[-1][2]}}</td>  <td class="tabel">{{result2[-1][3]}}</td> <td class="tabel">{{result2[-1][4]}}</td> <td class="tabel">{{result2[-1][5]}}</td></tr>
-           {%endif%}
-           {%if count22 >= 2 %}
-           <tr> <td class="tabel">{{result2[-2][1]}}</td> <td class="tabel">{{result2[-2][2]}}</td>  <td class="tabel">{{result2[-2][3]}}</td> <td class="tabel">{{result2[-2][4]}}</td> <td class="tabel">{{result2[-2][5]}}</td></tr>
-           {%endif%}
-           {%if count22 >= 3 %}
-           <tr> <td class="tabel">{{result2[-3][1]}}</td> <td class="tabel">{{result2[-3][2]}}</td>  <td class="tabel">{{result2[-3][3]}}</td> <td class="tabel">{{result2[-3][4]}}</td> <td class="tabel">{{result2[-3][5]}}</td></tr>
-           {%endif%}
-           {%if count22 >= 4 %}
-           <tr> <td class="tabel">{{result2[-4][1]}}</td> <td class="tabel">{{result2[-4][2]}}</td>  <td class="tabel">{{result2[-4][3]}}</td> <td class="tabel">{{result2[-4][4]}}</td> <td class="tabel">{{result2[-4][5]}}</td></tr>
-           {%endif%}
-           {%if count22 >= 5 %}
-           <tr> <td class="tabel">{{result2[-5][1]}}</td> <td class="tabel">{{result2[-5][2]}}</td>  <td class="tabel">{{result2[-5][3]}}</td> <td class="tabel">{{result2[-5][4]}}</td> <td class="tabel">{{result2[-5][5]}}</td></tr>
-           {%endif%}
+            {%if counter_sel_zeiterfassung >= 1 %}
+            <tr> <td class="tabel">Name</td> <td class="tabel">Datum</td>  <td class="tabel">Zeit1</td> <td class="tabel">Zeit2</td> <td class="tabel">Pausenlänge</td></tr>
+            {%endif%}
+
+               {%for row in result_search_1_reverse%}
+                <tr>
+                   <td class="tabel">{{row[1]}}</td>
+                   <td class="tabel">{{row[2]}}</td>
+                   <td class="tabel">{{row[3]}}</td>
+                   <td class="tabel">{{row[4]}}</td>
+                   <td class="tabel">{{row[5]}}</td>
+                </tr>
+               {%endfor%}
+
+               {%for row in result_search_2_reverse%}
+           <tr>
+               <td class="tabel">{{row[1]}}</td>
+               <td class="tabel">{{row[2]}}</td>
+               <td class="tabel">{{row[3]}}</td>
+               <td class="tabel">{{row[4]}}</td>
+               <td class="tabel">{{row[5]}}</td>
+           </tr>
+               {%endfor%}
        </table>
    </main>
 
