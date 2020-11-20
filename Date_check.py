@@ -4,7 +4,7 @@ import main
 
 
 if __name__ == '__main__':
-    while 0 == 1:
+    while 1 == 1:
         date = (datetime.datetime.now ( ).strftime ( "%A  %d.%m.%Y" ))
         time = (datetime.datetime.now ( ).strftime ( "%H:%M" ))
         for z in range( len( main.name ) ):

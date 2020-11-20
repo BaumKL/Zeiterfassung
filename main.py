@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,url_for,session
+from flask import Flask,render_template,request,redirect,session
 import sqlite3
 import datetime
 from smtplib import SMTP
@@ -13,9 +13,9 @@ pwd_zeiterfassung = 'Zeiterfassung2020'
 pwd_admin = 'Zeiterfassung2020admin'
 
 app = Flask(__name__)
-path_db = 'datenbank.db'#'/home/pi/Documents/rpiWebServer/datenbank.db'
-path_log = 'static/log.log'  #'/home/pi/Documents/rpiWebServer/static/log.log'
-path_dataoutput = 'dataoutput/'#'/home/pi/Documents/rpiWebServer/dataoutput/'
+path_db = 'datenbank.db'#'/home/pi/Python-Server/datenbank.db'
+path_log = 'static/log.log'  #'/home/pi/Python-Server/static/log.log'
+path_dataoutput = 'dataoutput/'#'/home/pi/Python-Server/dataoutput/'
 
 logging.basicConfig(filename=path_log,level=logging.INFO)
 logger_zeiterfassung = logging.getLogger("zeiterassung")
