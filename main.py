@@ -117,6 +117,7 @@ def check ():
                             logger_zeiterfassung.info ( datetime.datetime.now ( ).strftime ( "%H:%M:%S :" ) + name[z] + " hatte sich ueber die IP " + request.remote_addr + " vergeblich versucht auszuloggen." )
 
                             return render_template("fail.html", status = 3,URL='/zeiterfassung' )
+        return render_template('fail.html',status=4,URL='/Zeiterfassung')
 @app.route('/done')
 def done():
     usernamen = name[z]
@@ -255,8 +256,7 @@ def search ():
 
         return render_template ( 'tabel.html' , result_search_1_reverse=result_search_1 ,result_search_2_reverse=result_search_2 , search=search ,counter_sel_zeiterfassung=counter_sel_zeiterfassung[0][0] ,counter_sel_zeiterfassungbackup=counter_sel_zeiterfassungbackup[0][0] )
     else:
-        status=4
-        return render_template('fail.html',status=status,URL='/search')
+        return render_template('fail.html',status=4,URL='/search')
 @app.route('/send_mail',methods = ['POST','GET'])
 def send_mail () :
     if request.method == 'POST':
