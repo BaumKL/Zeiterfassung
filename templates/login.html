@@ -11,13 +11,16 @@
         <h1 class="text_header" >Rondo Zeiterfassung</h1>
         <img src="{{url_for('static', filename='download.png')}}" class="image_header">
     </header>
-   <main>
+    <main>
        <p>Bitte Passwort eingeben</p>
        <form method="post" >
            <input type="password" name="passwd" class="passwort_input">
            <input type="submit" name="Done" class="butten">
        </form>
-   </main>
-
+    </main>
+    <footer>
+        <hr>
+        <p><button class="butten"><a href="/down" class="butten_a"> Sever Herunterfahren </a></button></p>
+    </footer>
 </body>
 </html>

@@ -3,7 +3,7 @@ import sqlite3
 import datetime
 from smtplib import SMTP
 import logging
-
+import subprocess
 
 
 
@@ -278,6 +278,9 @@ def send_mail () :
         return render_template('mail_sent.html',RCPT_TO=RCPT_TO)
     else:
         return render_template('mail_input.html')
+@app.route('/down')
+def down():
+    subprocess.call(['shutdown','-h','now'])
 
 if __name__ == '__main__': #if __name__ == '__main__':
-    app.run ( port=5000 , debug=True ) #app.run(debug=True, port=80, host='0.0.0.0')
+    app.run ( port=5006 , debug=True ) #app.run(debug=True, port=80, host='0.0.0.0')
