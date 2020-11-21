@@ -261,7 +261,7 @@ def search ():
 def send_mail () :
     if request.method == 'POST':
         RCPT_TO = request.form.get ( 'RCPT_TO' )
-        mail_text = 'Hier ist der Google Drive Link zum Datenoutput der Zeiterfassung: \n https://drive.google.com/drive/folders/1rQHZnT_oXpLUULuHgnQPs0r78LYHORl8?usp=sharing '
+        mail_text = 'Hier ist der Google Drive Link zum Datenoutput der Zeiterfassung: \n https://drive.google.com/drive/folders/1XfPAmTEnFmQ0cHD83i-tanU5bVKs2brn?usp=sharing'
         user = 'Zeitmessungssystem@gmail.com'
         pwd_mail = 'skit7BIRD!smee3chem'
         subject = 'Link zum Datenoutput der Zeiterfassung :)'
