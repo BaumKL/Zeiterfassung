@@ -5,12 +5,10 @@ from smtplib import SMTP
 import logging
 import subprocess
 
-
-
 ID = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '010' ]
 name = ['Uschi', 'Helga', 'Mete', 'Andreas', 'Maria', 'Thomas', 'Konrad', 'Amed', 'Zusatz1', 'Zusatz2', 'Zusatz3',]
 pwd_zeiterfassung = 'Zeiterfassung2020'
-pwd_admin = 'Zeiterfassung2020admin'
+RFID_pwd_zeiterfassung = '03674131'
 
 app = Flask(__name__)
 path_db = 'datenbank.db'#'/home/pi/Python-Server/datenbank.db'
@@ -24,6 +22,10 @@ logger_login = logging.getLogger("login")
 logger_login.setLevel(logging.INFO)
 logger_convert = logging.getLogger("login")
 logger_convert.setLevel(logging.INFO)
+logger_shutdown = logging.getLogger("login")
+logger_shutdown.setLevel(logging.INFO)
+logger_reload = logging.getLogger("login")
+logger_reload.setLevel(logging.INFO)
 
 
 @app.route('/')
@@ -42,16 +44,22 @@ def logout_zeiterfassung():
 def Zeiterfassung ():
     if request.method == 'POST':
         passwort = request.form.get ( 'passwd' )
-        if passwort == pwd_zeiterfassung:
+        if passwort == pwd_zeiterfassung or passwort == RFID_pwd_zeiterfassung:
             session['auto_login_zeiterfassung'] = passwort
             logger_login.info ( datetime.datetime.now ( ).strftime ( "%H:%M:%S :" )  +"Hatte sich ueber die IP " + request.remote_addr + " in das zeiterfassungs system erfolgreich neu eingelockt und damit das auto login aktivirt." )
-            return render_template ( 'zeiterfassung.html' )
+            try:
+                subprocess.call ( ['omxplayer' , '/home/pi/Videos/boot_screen(short).mp4'] )
+                return render_template ( 'zeiterfassung.html' )
+            except WindowsError :
+                logger_login.info(datetime.datetime.now ( ).strftime ("%H:%M:%S :" ) + "Bei der IP:" + request.remote_addr + " konnte das warte Video nicht abgespielt werden! ")
+                return render_template ( 'zeiterfassung.html' )
         else:
             logger_login.info ( datetime.datetime.now ( ).strftime ("%H:%M:%S :" ) + "Hatte sich ueber die IP " + request.remote_addr + " in das zeiterfassungs system nicht erfolgreich eingelockt." )
             return render_template ( 'loginfail.html' )
     elif 'auto_login_zeiterfassung' in session:
-        if session['auto_login_zeiterfassung'] == pwd_zeiterfassung:
+        if session['auto_login_zeiterfassung'] == pwd_zeiterfassung or session['auto_login_zeiterfassung'] == RFID_pwd_zeiterfassung:
             return render_template ( 'zeiterfassung.html' )
+
         else:
             return  redirect('/logout_')
     else:
@@ -280,7 +288,16 @@ def send_mail () :
         return render_template('mail_input.html')
 @app.route('/down')
 def down():
+    subprocess.call ( ['omxplayer' , '/home/pi/Videos/Shutdown_screen.mp4'])
+    logger_shutdown.info ( datetime.datetime.now ( ).strftime ("%H:%M:%S :" ) + "IP:" + request.remote_addr + " hat den Sever Herunter gefahren" )
     subprocess.call(['shutdown','-h','now'])
+    return redirect('/')
+@app.route('/reload/<para>')
+def reload(para):
+    logger_reload.info ( datetime.datetime.now ( ).strftime ("%H:%M:%S :" ) + "IP:" + request.remote_addr + " hat die severdateien geupdatet und de sever neugestarte" )
+    subprocess.call ( ['sudo','/root/rclonesync','Zeiterfassung-sync:Zeiterfassung-sync','/home/pi/Python-Server/',para] )
+    subprocess.call ( ['sudo','reboot'])
+    return redirect('/')
 
 if __name__ == '__main__': #if __name__ == '__main__':
-    app.run ( port=5006 , debug=True ) #app.run(debug=True, port=80, host='0.0.0.0')
+    app.run ( port=5000 , debug=True ) #app.run(debug=True, port=80, host='0.0.0.0')
