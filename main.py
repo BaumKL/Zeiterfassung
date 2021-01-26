@@ -87,18 +87,7 @@ def check ():
                     else:
                         global statuscheck
                         statuscheck = 1
-                        if eat == '1':
-                            logger_zeiterfassung.info ( datetime.datetime.now ( ).strftime ( "%H:%M:%S :" ) + name[z] + " hatte sich ueber die IP " + request.remote_addr + " mit Mittagspause einzugeloggt." )
-                            global eat_print
-                            global eat_status
-                            eat_print = 'Mit Mitagspause!'
-                            eat_status = 1
-                            return redirect ( '/done' )
-                        else:
-                            logger_zeiterfassung.info ( datetime.datetime.now ( ).strftime ( "%H:%M:%S :" ) + name[z] + " hatte sich ueber die IP " + request.remote_addr + " ohne Mittagspause einzugeloggt." )
-                            eat_print = 'Ohne Mitagspause'
-                            eat_status = 0
-                            return redirect ( '/done' )
+                        return redirect('/done')
                 else:
                     conn = sqlite3.connect (path_db)
                     cursor = conn.cursor ( )
@@ -120,7 +109,14 @@ def check ():
                         if counter_sel_zeiterfassung_bediung_null[0][0] <= 0:
                             logger_zeiterfassung.info ( datetime.datetime.now ( ).strftime ( "%H:%M:%S :" ) + name[z] + " hatte sich ueber die IP " + request.remote_addr + " ausgeloggt." )
                             statuscheck = 2
-                            return redirect ( '/done' )
+                            if eat == '1':
+                                logger_zeiterfassung.info(datetime.datetime.now().strftime("%H:%M:%S :") + name[z] + " hatte sich ueber die IP " + request.remote_addr + " mit Mittagspause ausgeloggt.")
+                                global eat_status
+                                eat_status = 1
+                            else:
+                                logger_zeiterfassung.info(datetime.datetime.now().strftime("%H:%M:%S :") + name[z] + " hatte sich ueber die IP " + request.remote_addr + " ohne Mittagspause ausgelogtgeloggt.")
+                                eat_status = 0
+                            return redirect('/done')
                         else :
                             logger_zeiterfassung.info ( datetime.datetime.now ( ).strftime ( "%H:%M:%S :" ) + name[z] + " hatte sich ueber die IP " + request.remote_addr + " vergeblich versucht auszuloggen." )
 
@@ -144,19 +140,22 @@ def done():
 
 
     if statuscheck == 2 :
-        cursor.execute ( "UPDATE zeiterfassung SET zeit2 == ? WHERE datum == ? AND name ==? AND zeit2 IS NULL " , (time ,date,usernamen) )
+        if eat_status == 0 :
+            brake_print = '00:00'
+            eat_print = 'Ohne Mitagspause'
+        else:
+            brake_print = '00:15:00'
+            eat_print = 'Mit Mitagspause!'
+
+        cursor.execute ( "UPDATE zeiterfassung set zeit2 == ?, pausenzeit == ? WHERE name == ? and datum == ?" , (time ,brake_print,usernamen,date) )
         conn.commit ( )
         conn.close ( )
-        global eat_print
-        eat_print = " "
+
         return render_template ( 'done.html' , eater=eat_print , name=name[z] , status=statuscheck )
 
     if statuscheck == 1:
-        if eat_status == 0 :
-            brake_print = '00:00'
-        else:
-            brake_print = '00:15:00'
-        cursor.execute ( "INSERT INTO zeiterfassung (id,name, datum,zeit1,pausenzeit) VALUES (?,?,?,?,?)" , (counter_sel_zeiterfassung ,usernamen , date , time,brake_print) )
+        eat_print = " "
+        cursor.execute ( "INSERT INTO zeiterfassung (id,name, datum,zeit1) VALUES (?,?,?,?)" , (counter_sel_zeiterfassung ,usernamen , date ,time) )
         conn.commit ( )
         conn.close ( )
         return  render_template('done.html' , eater = eat_print , name = usernamen , status = statuscheck )
