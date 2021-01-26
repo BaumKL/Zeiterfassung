@@ -103,7 +103,7 @@ def check ():
                     if countecounter_sel_zeiterfassung_bediung[0][0] <= 0:
                         logger_zeiterfassung.info ( datetime.datetime.now ( ).strftime ( "%H:%M:%S :" ) + name[z] + " hatte sich noch nicht eingloggt IP: " + request.remote_addr + " ." )
 
-                        return render_template("fail.html", status = 2 ,URL='/zeiterfassung')
+                        return render_template("fail.html", status = 2 ,URL='/Zeiterfassung')
 
                     else:
                         if counter_sel_zeiterfassung_bediung_null[0][0] <= 0:
