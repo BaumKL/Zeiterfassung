@@ -8,7 +8,7 @@ import subprocess
 ID = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '010' ]
 name = ['Uschi', 'Helga', 'Mete', 'Andreas', 'Maria', 'Thomas', 'Konrad', 'Amed', 'Zusatz1', 'Zusatz2', 'Zusatz3',]
 pwd_zeiterfassung = 'Zeiterfassung2020'
-RFID_pwd_zeiterfassung = '03674131'
+RFID_pwd_zeiterfassung = 'set_login_token'
 
 app = Flask(__name__)
 path_db = 'datenbank.db'#'/home/pi/Python-Server/datenbank.db'
