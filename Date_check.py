@@ -11,7 +11,7 @@ if __name__ == '__main__':
             if time == "23:59":
                 conn = sqlite3.connect ( 'datenbank.db' )
                 cursor = conn.cursor ( )
-                cursor.execute ( "SELECT count(*) FROM zeiterfassung WHERE name == ? " , (main.name[z],) )
+                cursor.execute ( "SELECT count(*) FROM zeiterfassung WHERE name == ?  and datum == ?" , (main.name[z],date,) )
                 counter_sel_zeiterfassung_name_bedinung = cursor.fetchall ( )
                 counter_sel_zeiterfassung_name_bedinung = counter_sel_zeiterfassung_name_bedinung[0][0]
                 conn.commit ( )
